@@ -1,0 +1,86 @@
+REFERENCES:
+1. @: PROJECT
+
+2. #: RENAME
+    
+3. $: SELECT
+
+4. *: CROSS PRODUCT
+    	
+5. -: SET DIFFRENCE
+    	
+6. +: SET UNION
+    
+7. [] : SPECIFY ATTRIBUTES IN PROJECT AND SELECT
+
+8. {}: SPECIFY RENAMED ATTRIBUTES IN REANAME
+    	
+9. REFERENCE QUERY: @[DEPARTMENT, ROLL](@[STUD_NAME,STUD_ROLL,STUD_DEPT](#[x{STUD_NAME,STUD_ROLL,STUD_DEPT}](student)))
+
+
+
+/******************************************SOME VALID QUERIES*************************************************
+
+
+@[DEPARTMENT,ROLL](student)   
+
+$[DEPARTMENT='CSE'^ROLL>=30](student)     
+
+@[x.STUD_ROLL,STUD_NAME,STUD_DEPT](#[x{STUD_NAME,STUD_ROLL,STUD_DEPT,SEC}](student)) 
+
+@[NAME,ROLL]($[ROLL>=130^DEPARTMENT='CSE'](student))
+
+@[NAME,ROLL,DEPARTMENT]($[ROLL=128|DEPARTMENT='CSE'](student))
+
+@[STUD_NAME,STUD_DEPT]($[DEPARTMENT='CSE'](#[x{STUD_NAME,STUD_ROLL,STUD_DEPT,SEC}](student)))
+
+@[NAME,INSTRUCTOR]($[DEPARTMENT=DEPT](student*instructor))
+
+@[NAME]($[DEPARTMENT=DEPT](student*instructor))-@[NAME]($[SECTION=TEACHES_SEC](student*instructor))
+
+@[NAME,DEPARTMENT](student)+@[INSTRUCTOR,DEPT]($[SALARY>=4600](instructor))
+
+@[NAME,DEPARTMENT]($[DEPARTMENT='CSE'](student))-@[INSTRUCTOR,DEPT]($[DEPT='CSE'^ SALARY>=4600](instructor))
+
+/*************************************************************************************************************
+
+
+*********************************************SOME INVALID QUERIES*********************************************
+
+@[DEPARTMENT,ROLL](student -> unbalanced paranthesis
+ 
+@[DEPARTMENT,roll](student) -> Atrribute 'roll' is invalid .correct one is 'ROLL'.
+
+@[DEPARTMENT,ROLL](stud) -> invalid relation name
+
+@[x.STUD_ROLL,STUD_NAME,STUD_DEPT](#[x{STUD_NAME,STUD_ROLL}](student)) ->  No of attributes not correct in rename
+
+@[NAME,ROLL]($[ROLL>=130^DEPARTMENT=140](student)) ->  Department should be string 
+
+@[DEPARTMENT,ROLL](student) - @[DEPT](instructor) -> Arity error
+
+@[DEPARTMENT](student) - @[SALARY](instructor) -> Domain does not match
+
+***************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
